@@ -1,13 +1,11 @@
 package com.example.productdelivery.model;
 
+import com.example.productdelivery.helpers.OptimalRouteHelper;
 import com.example.productdelivery.utils.CustomObjectConverter;
 import lombok.Data;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Data
 public class DeliveryRoute {
@@ -17,7 +15,7 @@ public class DeliveryRoute {
     Integer countDeliverables;
     Long[][] timeMatrix;
 
-    public DeliveryRoute(EvaluationRequest request) {
+    public DeliveryRoute(DeliveryAssignmentRequest request) {
         this.countDeliverables = request.getRestaurantLocations().size();
         this.customersStartIndex = this.restaurantsStartIndex + this.countDeliverables;
 
@@ -29,7 +27,7 @@ public class DeliveryRoute {
         this.timeMatrix = CustomObjectConverter.convertToTimeMatrix(allLocationNodes);
     }
 
-    public List<String> routeToString(LinkedHashSet<Integer> route) {
+    private List<String> routeToString(LinkedHashSet<Integer> route) {
         List<String> routeString = new java.util.ArrayList<>();
         for(Integer index : route){
             LocationNode cur = allLocationNodes.get(index);
@@ -44,5 +42,15 @@ public class DeliveryRoute {
 
     public Long getTravelTime(Integer from, Integer to) {
         return timeMatrix[from][to];
+    }
+
+    public void setDeliveryPersonLocation(LocationCoordinates deliveryPersonLocation) {
+        allLocationNodes.set(0, new LocationNode(deliveryPersonLocation, LocationType.DELIVERY_PERSON));
+        this.timeMatrix = CustomObjectConverter.convertToTimeMatrix(allLocationNodes);
+    }
+
+    public List<String> getMostOptimalRoute() {
+        LinkedHashSet<Integer> optimalRoute = OptimalRouteHelper.calculateOptimalRoute(this);
+        return routeToString(optimalRoute);
     }
 }

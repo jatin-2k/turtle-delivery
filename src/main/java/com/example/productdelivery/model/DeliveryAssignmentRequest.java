@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EvaluationRequest {
+public class DeliveryAssignmentRequest {
     private List<LocationCoordinates> restaurantLocations;
     private List<LocationCoordinates> customerLocations;
     private LocationCoordinates deliveryPersonLocation;

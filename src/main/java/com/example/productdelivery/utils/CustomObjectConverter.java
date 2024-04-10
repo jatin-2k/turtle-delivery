@@ -1,7 +1,6 @@
 package com.example.productdelivery.utils;
 
 import com.example.productdelivery.helpers.GeoLocationHelper;
-import com.example.productdelivery.model.EvaluationRequest;
 import com.example.productdelivery.model.LocationCoordinates;
 import com.example.productdelivery.model.LocationNode;
 
