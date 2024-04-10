@@ -15,14 +15,14 @@ public class DeliveryRoute {
     Integer countDeliverables;
     Long[][] timeMatrix;
 
-    public DeliveryRoute(DeliveryAssignmentRequest request) {
-        this.countDeliverables = request.getRestaurantLocations().size();
+    public DeliveryRoute(LocationCoordinates deliveryPersonLocation, List<LocationCoordinates> restauntLocations, List<LocationCoordinates> customerLocations) {
+        this.countDeliverables = restauntLocations.size();
         this.customersStartIndex = this.restaurantsStartIndex + this.countDeliverables;
 
         //making it such that 0 is starting point, 1 to n indices are restaurant locations, n+1 to 2n indices are customer locations
-        allLocationNodes.add(new LocationNode(request.getDeliveryPersonLocation(), LocationType.DELIVERY_PERSON));
-        allLocationNodes.addAll(request.getRestaurantLocations().stream().map(restaurantLocation -> new LocationNode(restaurantLocation, LocationType.RESTAURANT)).toList());
-        allLocationNodes.addAll(request.getCustomerLocations().stream().map(customerLocation -> new LocationNode(customerLocation, LocationType.CUSTOMER)).toList());
+        allLocationNodes.add(new LocationNode(deliveryPersonLocation, LocationType.DELIVERY_PERSON));
+        allLocationNodes.addAll(restauntLocations.stream().map(restaurantLocation -> new LocationNode(restaurantLocation, LocationType.RESTAURANT)).toList());
+        allLocationNodes.addAll(customerLocations.stream().map(customerLocation -> new LocationNode(customerLocation, LocationType.CUSTOMER)).toList());
 
         this.timeMatrix = CustomObjectConverter.convertToTimeMatrix(allLocationNodes);
     }
