@@ -32,9 +32,9 @@ public class DeliveryRoute {
         for(Integer index : route){
             LocationNode cur = allLocationNodes.get(index);
             if(cur.getLocationType() == LocationType.RESTAURANT){
-                routeString.add("Go to R" + (index-restaurantsStartIndex+1));
+                routeString.add("Go to R" + (index-restaurantsStartIndex+1) + " at " + cur.getLatitude() + "," + cur.getLongitude());
             } else if(cur.getLocationType() == LocationType.CUSTOMER){
-                routeString.add("Go to C" + (index-customersStartIndex+1));
+                routeString.add("Go to C" + (index-customersStartIndex+1) + " at " + cur.getLatitude() + "," + cur.getLongitude());
             }
         }
         return routeString;

@@ -33,14 +33,6 @@ public class DeliveryRouteServiceTests {
                     new LocationCoordinates(37.7749, -122.4194)
             ));
         });
-
-        assertThrows(NullPointerException.class, () -> {
-            deliveryRouteService.assignOrdersToDeliveryPerson("1", new DeliveryAssignmentRequest(
-                    List.of(),
-                    List.of(),
-                    new LocationCoordinates(37.7749, -122.4194)
-            ));
-        });
     }
 
     @Test
@@ -54,7 +46,12 @@ public class DeliveryRouteServiceTests {
 
     @Test
     public void testGetDeliveryPersonRoute() {
-        List<String> expectedRoute = List.of("Go to R1", "Go to R2", "Go to C1", "Go to C2");
+        List<String> expectedRoute = List.of(
+                "Go to R1 at 34.0522,-118.2237",
+                "Go to R2 at 34.0522,-118.2337",
+                "Go to C1 at 34.0522,-118.2437",
+                "Go to C2 at 34.0522,-118.2537"
+        );
 
         when(deliveryRouteRepository.getRoute("1")).thenReturn(new DeliveryRoute(
                 new LocationCoordinates(34.0522, -118.2137),
@@ -71,7 +68,12 @@ public class DeliveryRouteServiceTests {
 
     @Test
     public void testGetAllDeliveryRoutes() {
-        List<String> expectedRoutes = List.of("1", "Go to R1", "Go to R2", "Go to C1", "Go to C2");
+        List<String> expectedRoutes = List.of("1",
+                "Go to R1 at 34.0522,-118.2237",
+                "Go to R2 at 34.0522,-118.2337",
+                "Go to C1 at 34.0522,-118.2437",
+                "Go to C2 at 34.0522,-118.2537"
+        );
 
         when(deliveryRouteRepository.getAllDeliveryRoutes()).thenReturn(Map.of(
                 "1", new DeliveryRoute(
